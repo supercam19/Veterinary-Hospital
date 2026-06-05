@@ -3,3 +3,10 @@
 #67C090
 #215B63
 #124170
+
+Palette 2
+#EB4C4C
+#FF7070
+#FFA6A6
+#FFEDC7
+https://www.beechwoodah.com/

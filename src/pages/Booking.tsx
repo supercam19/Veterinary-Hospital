@@ -2,29 +2,43 @@
 import ProcessStep from "../components/ProcessStep.tsx";
 import {useNavigate} from "react-router-dom";
 import ConfirmationStep from "../components/ConfirmationStep.tsx";
-import dayjs from "dayjs";
+import dayjs, {Dayjs} from "dayjs";
 import calendar from "dayjs/plugin/calendar";
 import { Box } from "@mui/material";
 import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
 import {useState} from "react";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 
 export function Booking() {
     
     const navigate = useNavigate();
     dayjs.extend(calendar);
-    const [date, setDate] = useState<Date>();
+    const [date, setDate] = useState<Dayjs>();
+    
+    const availability = (timeValue: Dayjs) => {
+        let c = timeValue.year() * 7;
+        c += timeValue.month() * 11;
+        c += timeValue.day() * 13;
+        c += timeValue.hour() * 17;
+        c += timeValue.minute() * 23;
+        return c % 2 === 0;
+    }
+    
+    const handleStep = (finished: boolean) => {
+        
+    }
     
     return (
         <Stepwise
             title="Appointment Booking"
-            steps={["Details", "Select Date"]}
-            onComplete={() => navigate("/")}
+            steps={["Details", "Select Date", "Confirmation"]}
+            onComplete={handleStep}
         >
             <ProcessStep
                 fields={[
                     { key: "name", label: "Name", type: "text", placeholder: "Alice Doe" },
-                    { key: "phone", label: "Phone Number", type: "tel", placeholder: "123-456-1234",
-                        validate: (v) => /^\d{3}-\d{3}-\d{4}$/.test(v) ? undefined : "Use format 123-456-7890" },
+                    { key: "phone", label: "Phone Number", type: "tel", placeholder: "123-456-1234", },
                     { key: "email", label: "Email Address", type: "email" },
                     { key: "address", label: "Home Address", type: "text" },
                 ]}
@@ -40,9 +54,19 @@ export function Booking() {
                 ]}
             />
             <Box>
-                <StaticDateTimePicker>
-                    
-                </StaticDateTimePicker>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <StaticDateTimePicker
+                        timeSteps={{minutes: 30}}
+                        minTime={dayjs().hour(8)}
+                        maxTime={dayjs().hour(16).minute(30)}
+                        minDate={dayjs()}
+                        value={date}
+                        onChange={(value) => setDate(dayjs(value))}
+                        shouldDisableTime={availability}
+                    >
+                        
+                    </StaticDateTimePicker>
+                </LocalizationProvider>
             </Box>
             <ConfirmationStep
                 title="Booking Confirmed"

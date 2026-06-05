@@ -5,10 +5,11 @@ interface StepwiseProps {
     title: string;
     steps: string[];
     children: React.ReactNode[];
-    onComplete?: () => void;
+    canContinue: boolean;
+    onStep: (finished: boolean) => void;
 }
 
-export default function Stepwise({ title, steps, children, onComplete }: Readonly<StepwiseProps>) {
+export default function Stepwise({ title, steps, children, canContinue, onStep }: Readonly<StepwiseProps>) {
     const [activeStep, setActiveStep] = useState(0);
 
     const isFirst = activeStep === 0;
@@ -16,9 +17,8 @@ export default function Stepwise({ title, steps, children, onComplete }: Readonl
     const isSecondLast = activeStep === steps.length -2;
 
     const handleNext = () => {
-        if (isLast) {
-            onComplete?.();
-        } else {
+        onStep(isLast);
+        if (!isLast) {
             setActiveStep((prev) => prev + 1);
         }
     };
@@ -170,6 +170,7 @@ export default function Stepwise({ title, steps, children, onComplete }: Readonl
                         <Button
                             onClick={handleNext}
                             variant="contained"
+                            disabled={!canContinue}
                             sx={{
                                 backgroundColor: (theme) => theme.brand.lightblue,
                                 color: "#ffffff",

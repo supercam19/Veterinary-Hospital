@@ -21,9 +21,10 @@ export type FieldConfig = TextField_ | SelectField;
 
 interface ProcessStepProps {
     fields: FieldConfig[];
+    setAllFilled: () => void;
 }
 
-export default function ProcessStep({ fields, }: ProcessStepProps) {
+export default function ProcessStep({ fields, setAllFilled, }: ProcessStepProps) {
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {fields.map((field) => {
@@ -35,7 +36,7 @@ export default function ProcessStep({ fields, }: ProcessStepProps) {
                             select
                             label={field.label}
                             fullWidth
-                            variant="standard"
+                            variant="standard
                         >
                             {field.options.map((opt) => (
                                 <MenuItem key={opt.value} value={opt.value}>
