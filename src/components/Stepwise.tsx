@@ -5,11 +5,11 @@ interface StepwiseProps {
     title: string;
     steps: string[];
     children: React.ReactNode[];
-    canContinue: boolean;
-    onStep: (finished: boolean) => void;
+    canProceed: () => boolean;
+    onStep: (isLast: boolean) => void;
 }
 
-export default function Stepwise({ title, steps, children, canContinue, onStep }: Readonly<StepwiseProps>) {
+export default function Stepwise({ title, steps, children, canProceed, onStep, }: Readonly<StepwiseProps>) {
     const [activeStep, setActiveStep] = useState(0);
 
     const isFirst = activeStep === 0;
@@ -21,10 +21,6 @@ export default function Stepwise({ title, steps, children, canContinue, onStep }
         if (!isLast) {
             setActiveStep((prev) => prev + 1);
         }
-    };
-
-    const handleBack = () => {
-        setActiveStep((prev) => prev - 1);
     };
 
     return (
@@ -42,7 +38,7 @@ export default function Stepwise({ title, steps, children, canContinue, onStep }
                 sx={{
                     width: { xs: "220px", md: "280px" },
                     flexShrink: 0,
-                    backgroundColor: (theme: any) => theme.brand.lightblue,
+                    backgroundColor: (theme) => theme.brand.lightblue,
                     display: "flex",
                     flexDirection: "column",
                     py: 4,
@@ -79,7 +75,7 @@ export default function Stepwise({ title, steps, children, canContinue, onStep }
                                     paddingLeft: 1.5,
                                     py: 1.25,
                                     backgroundColor: isActive
-                                        ? (theme: any) => theme.brand.blue
+                                        ? (theme) => theme.brand.blue
                                         : "transparent",
                                     transition: "background-color 0.2s",
                                 }}
@@ -111,7 +107,7 @@ export default function Stepwise({ title, steps, children, canContinue, onStep }
             >
                 <Box
                     sx={{
-                        backgroundColor: (theme: any) => theme.brand.light,
+                        backgroundColor: (theme) => theme.brand.light,
                         borderRadius: "4px",
                         boxShadow: "0px 8px 32px rgba(0, 0, 0, 0.35)",
                         width: "100%",
@@ -122,18 +118,18 @@ export default function Stepwise({ title, steps, children, canContinue, onStep }
                         gap: 3,
                     }}
                 >
-                    <Typography
+                    {activeStep !== steps.length - 1 && <Typography
                         variant="h6"
                         sx={{
                             fontWeight: 700,
-                            fontSize: { xs: "1.1rem", sm: "1.25rem" },
+                            fontSize: {xs: "1.1rem", sm: "1.25rem"},
                             textAlign: "center",
                             mb: 1,
                             color: "black",
                         }}
                     >
                         Please Fill in the Information Below
-                    </Typography>
+                    </Typography>}
 
                     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                         {children[activeStep]}
@@ -146,7 +142,7 @@ export default function Stepwise({ title, steps, children, canContinue, onStep }
                             mt: 1,
                         }}
                     >
-                        {!isFirst && (
+                        {/* !isFirst && (
                             <Button
                                 onClick={handleBack}
                                 variant="contained"
@@ -166,11 +162,11 @@ export default function Stepwise({ title, steps, children, canContinue, onStep }
                             >
                                 Back
                             </Button>
-                        )}
+                        ) */}
                         <Button
                             onClick={handleNext}
                             variant="contained"
-                            disabled={!canContinue}
+                            disabled={!canProceed()}
                             sx={{
                                 backgroundColor: (theme) => theme.brand.lightblue,
                                 color: "#ffffff",
