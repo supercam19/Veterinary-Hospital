@@ -227,7 +227,7 @@ export function About() {
                         Find Us
                     </Typography>
                     <Typography variant="body2" sx={{ color: "text.secondary", mb: 3 }}>
-                        123 Cedarvale Avenue, Toronto, ON M4N 2X8 &nbsp;·&nbsp; Open 24/7
+                        123 Ava Rd, Cedarvale, ON M4N 2X8 &nbsp;·&nbsp; Open 24/7
                     </Typography>
                     <Box
                         sx={{
