@@ -12,7 +12,6 @@ interface StepwiseProps {
 export default function Stepwise({ title, steps, children, canProceed, onStep, }: Readonly<StepwiseProps>) {
     const [activeStep, setActiveStep] = useState(0);
 
-    const isFirst = activeStep === 0;
     const isLast = activeStep === steps.length - 1;
     const isSecondLast = activeStep === steps.length -2;
 
