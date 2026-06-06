@@ -129,6 +129,20 @@ export function Home() {
                         Medication Refill
                     </Button>
                 </Box>
+                <Typography
+                    sx={{
+                        fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                        fontSize: { xs: "1rem", sm: "1.125rem", md: "1.25rem" },
+                        color: "#ffffff",
+                        mt: { xs: 3, md: 4 },
+                        fontWeight: 400,
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                    }}
+                >
+                    contact@cedarvalevet.com · 123-456-7890 · 123 Ava Rd, Cedarvale
+                </Typography>
             </Container>
         </Box>
     );

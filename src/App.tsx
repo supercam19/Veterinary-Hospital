@@ -6,6 +6,7 @@ import {MedicationDelivery} from "./pages/MedicationDelivery";
 import {About} from "./pages/About";
 import {createTheme, type Theme, ThemeProvider} from "@mui/material";
 import {Navbar} from "./components/Navbar.tsx";
+import {Footer} from "./components/Footer.tsx";
 
 interface FourColoured {
     light: string;
@@ -56,6 +57,7 @@ function App() {
               <Route path="/medication" Component={MedicationDelivery} />
               <Route path="about" Component={About} />   
             </Routes>
+              <Footer />
           </BrowserRouter>
       </ThemeProvider>
   )

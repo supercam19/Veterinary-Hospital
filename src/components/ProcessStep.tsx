@@ -55,6 +55,11 @@ export default function ProcessStep({ fields, setAllFilled, }: ProcessStepProps)
                             variant="standard"
                             defaultValue=""
                             onChange={(e) => handleChange(field.key, e.target.value)}
+                            slotProps={{
+                                select: {
+                                    sx: { textAlign: "left" },
+                                },
+                            }}
                         >
                             {field.options.map((opt) => (
                                 <MenuItem key={opt.value} value={opt.value}>
