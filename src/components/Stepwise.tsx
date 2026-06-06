@@ -5,7 +5,7 @@ interface StepwiseProps {
     title: string;
     steps: string[];
     children: React.ReactNode[];
-    canProceed: () => boolean;
+    canProceed: (step: number) => boolean;
     onStep: (isLast: boolean) => void;
 }
 
@@ -138,7 +138,7 @@ export default function Stepwise({ title, steps, children, canProceed, onStep, }
                     <Box
                         sx={{
                             display: "flex",
-                            justifyContent: isFirst ? "flex-end" : "space-between",
+                            justifyContent: "flex-end",
                             mt: 1,
                         }}
                     >
@@ -166,7 +166,7 @@ export default function Stepwise({ title, steps, children, canProceed, onStep, }
                         <Button
                             onClick={handleNext}
                             variant="contained"
-                            disabled={!canProceed()}
+                            disabled={!canProceed(activeStep)}
                             sx={{
                                 backgroundColor: (theme) => theme.brand.lightblue,
                                 color: "#ffffff",

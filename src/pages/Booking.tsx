@@ -14,7 +14,7 @@ export function Booking() {
 
     const navigate = useNavigate();
     dayjs.extend(calendar);
-    const [date, setDate] = useState<Dayjs>();
+    const [date, setDate] = useState<Dayjs | undefined>();
 
     const [allFilled, setAllFilled] = useState<boolean>(false);
 
@@ -47,17 +47,25 @@ export function Booking() {
         setAllFilled(false);
     }
     
+    const canProceed = (step: number) => {
+        switch (step) {
+            case 0: return allFilled;
+            case 1: return date !== undefined;
+            default: return true;
+        }
+    }
+    
     return (
         <Stepwise
             title="Appointment Booking"
             steps={["Details", "Select Date", "Confirmation"]}
-            canProceed={() => allFilled}
+            canProceed={canProceed}
             onStep={handleStep}
         >
             <ProcessStep
                 fields={[
-                    { key: "name", label: "Name", type: "text", placeholder: "Alice Doe" },
-                    { key: "phone", label: "Phone Number", type: "tel", placeholder: "123-456-1234", },
+                    { key: "name", label: "Name", type: "text" },
+                    { key: "phone", label: "Phone Number", type: "tel" },
                     { key: "email", label: "Email Address", type: "email" },
                     { key: "address", label: "Home Address", type: "text" },
                 ]}
@@ -71,7 +79,7 @@ export function Booking() {
                         maxTime={dayjs().hour(16).minute(30)}
                         minDate={dayjs()}
                         value={date}
-                        onChange={(value) => setDate(dayjs(value))}
+                        onChange={(value) => setDate(availability(dayjs(value)) ? dayjs(value) : undefined)}
                         shouldDisableTime={availability}
                         shouldDisableDate={nonAvailableDays}
                     >
